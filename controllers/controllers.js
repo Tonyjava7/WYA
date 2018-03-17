@@ -15,6 +15,18 @@ router.get("/home", function (req, res) {
     res.sendFile(path.join(__dirname, "../views/newUser.html"));
 });
 
+router.get("/driver", function (req, res) {
+    res.sendFile(path.join(__dirname, "../views/driver.html"));
+});
+
+router.get("/ridingDriver", function (req, res) {
+    res.sendFile(path.join(__dirname, "../views/ridingDriver.html"));
+});
+
+router.get("/updateInfo", function (req, res) {
+    res.sendFile(path.join(__dirname, "../views/updateInfo.html"));
+});
+
 /* router.get("/success", function (req, res) {
     console.log(req);
 
@@ -37,14 +49,19 @@ router.get("/home", function (req, res) {
 }); */
 
 router.post("/addUser", function (req, res) {
-    driver.addRider(req.body.data, function (result) {
-        res.json({ id: result.insertId });
+    rider.addUser(req.body.firstName, req.body.lastName, req.body.driver, req.body.email, req.body.emergName, req.body.emergNumber, function (result) {
+        if (req.body.driver == 1) {
+            res.sendFile(path.join(__dirname, "../views/driver.html"));
+        }
+        else {
+            res.sendFile(path.join(__dirname, "../views/rider.html"));
+        }
     })
 
 });
 
 router.post("/addRider", function (req, res) {
-    rider.addRider(req.body.firstName, req.body.lastName, req.body.driver, req.body.email, req.body.emergName, req.body.emergNumber, function (result) {
+    driver.addRider(req.body.firstName, req.body.lastName, req.body.fields, function (result) {
         res.json({ id: result.insertId });
     })
 
