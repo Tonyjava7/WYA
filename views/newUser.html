@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>New User Set Up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <h1>New User Set Up</h1>
+
+    <form action="/addUser" method="POST">
+        First name:
+        <br>
+        <input type="text" name="firstName" placeholder="John" required>
+        <br>
+        <br>
+        Last name:
+        <br>
+        <input type="text" name="lastName" placeholder="Smith" required>
+        <br>
+        <br>
+        Driver:
+        <br>
+        True 
+        <input type="radio" name="driver" value=1>
+        <br>
+        False 
+        <input type="radio" name="driver" value=0>
+        <br>
+        <br>
+        Email:
+        <br>
+        <input type="email" name="email" placeholder="john.smith@gmail.com" required>
+        <br>
+        <br>
+        Emergency Contact Name:
+        <br>
+        <input type="text" name="emergName" placeholder="Jane Smith" required>
+        <br>
+        <br>
+        Emergency Contact Number:
+        <br>
+        <input type="text" name="emergNumber" placeholder="1234567890" required>
+        <br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+
+</html>
