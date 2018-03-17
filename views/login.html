@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Where Ya At?</title>
+</head>
+
+<body>
+    <!-- Main Layout -->
+    <main>
+        <div>
+            <section>
+
+                <!--Heading-->
+                <h1>Where Ya At?</h1>
+                <!--Description-->
+                <p>An app that will ensure that you aren't left behind!</p>
+                <hr>
+                <div>
+                    <div>
+                        <!-- Firebase Initialization code -->
+                        <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+                        <script>
+                          // Initialize Firebase
+                          var config = {
+                            apiKey: "AIzaSyD9Z4QSlx1pOPRUurwF19-RJjAV9E0mI2w",
+                            authDomain: "where-ya-at-8a1b1.firebaseapp.com",
+                            databaseURL: "https://where-ya-at-8a1b1.firebaseio.com",
+                            projectId: "where-ya-at-8a1b1",
+                            storageBucket: "where-ya-at-8a1b1.appspot.com",
+                            messagingSenderId: "667593757795"
+                          };
+                          firebase.initializeApp(config);
+                        </script>
+
+
+                        <!-- Firebase Sign In Widgets -->
+
+                        <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+                        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css"/>
+                        <script type="text/javascript">
+                            // FirebaseUI config.
+                            var uiConfig = {
+                                signInSuccessUrl: '/home',
+                                signInOptions: [
+                                    // Leave the lines as is for the providers you want to offer your users.
+                                    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                                    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                                ],
+                                // Terms of service url.
+                                tosUrl: '<your-tos-url>'
+                            };
+
+                            // Initialize the FirebaseUI Widget using Firebase.
+                            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+                            // The start method will wait until the DOM is loaded.
+                            ui.start('#firebaseui-auth-container', uiConfig);
+                        </script>
+
+                        <div id="firebaseui-auth-container"></div>
+
+                        <!-- Form register -->
+                    </div>
+                    <!--Grid column-->
+
+                </div>
+                <!--Grid row-->
+
+            </section>
+
+        </div>
+
+    </main>
+    <!-- Main Layout -->
+
+    <!--Footer-->
+    <footer class="page-footer blue center-on-small-only">
+        <!--Copyright-->
+        <div class="footer-copyright">
+            <div class="container-fluid">
+                © 2018 Copyright: Y-NOTS
+            </div>
+        </div>
+        <!--/.Copyright-->
+    </footer>
+    <!--Footer-->
