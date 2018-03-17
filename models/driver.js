@@ -18,6 +18,12 @@ var driver = {
         })
     },
 
+    pullUser: function(email, cb) {
+        orm.selectWhere("users", "*", "email", email, function (res) {
+            cb(res)
+        });
+    },
+
     addRider: function(firstName, lastName, data, cb) {
         var tableName = firstName + lastName;
         orm.create(tableName, Object.keys(data), Object.values(data), function (res) {

@@ -1,18 +1,111 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Update Info</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- <script type="text/javascript" src="../public/assets/js/updateInfo.js"></script> -->
 </head>
+
 <body>
     <h1>Update Info</h1>
 
-    <ul id="riderList">
-        <li>Example Top List</li>
-    </ul>
+    <div>
+        <div id="currentInfo"></div>
+        <!-- <form id="updateinfo" class="button-size">
+            <select name="id">
+                {{#each plans}}
+                <option value="{{this.id}}">{{this.plan}}</option>
+                {{/each}}
+            </select>
+            <textarea type="text" name="plan" placeholder="plan"></textarea>
+            <button type="submit">Update Plan!</button>
+        </form> -->
+        <!-- <form action="/updateInfo" method="POST">
+            First name:
+            <br>
+            <input type="text" name="firstName" placeholder="John" required>
+            <br>
+            <br> Last name:
+            <br>
+            <input type="text" name="lastName" placeholder="Smith" required>
+            <br>
+            <br> Driver:
+            <br> True
+            <input type="radio" name="driver" value=1>
+            <br> False
+            <input type="radio" name="driver" value=0>
+            <br>
+            <br> Email:
+            <br>
+            <input type="email" name="email" placeholder="john.smith@gmail.com" required>
+            <br>
+            <br> Emergency Contact Name:
+            <br>
+            <input type="text" name="emergName" placeholder="Jane Smith" required>
+            <br>
+            <br> Emergency Contact Number:
+            <br>
+            <input type="text" name="emergNumber" placeholder="1234567890" required>
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+        </form> -->
+    </div>
 
     <button id="submit">Submit</button>
+
+    <script type="text/javascript">
+        var driver = require("../models/driver");
+        var rider = require("../models/rider");
+        var firebase = require("firebase");
+        var config = {
+            apiKey: "AIzaSyD9Z4QSlx1pOPRUurwF19-RJjAV9E0mI2w",
+            authDomain: "where-ya-at-8a1b1.firebaseapp.com",
+            databaseURL: "https://where-ya-at-8a1b1.firebaseio.com",
+            projectId: "where-ya-at-8a1b1",
+            storageBucket: "where-ya-at-8a1b1.appspot.com",
+            messagingSenderId: "667593757795"
+        };
+        firebase.initializeApp(config);
+        firebase.auth().onAuthStateChanged(function (user) {
+            console.log(user);
+            if (user) {
+                console.log(user);
+                var userFirst = '';
+                var userLast = '';
+                var userDriver = '';
+                var userEmail = '';
+                var userEmergName = '';
+                var userEmergNumb = '';
+                event.preventDefault();
+                var email = user.email;
+                console.log(email);
+                var driver = rider.isDriver(email, function (res) {
+                    console.log(res);
+                    if (res) {
+                        driver.pullUser(email, function (result) {
+                            console.log(result);
+                            var labelArray = ["First Name: ", "Last Name: ", "Email: ", "Emergency Contact Name", "Emergency Contact Number: "];
+                            var resultArray = [result.first_name, result.last_name, result.driver, result.email, result.emergency_contact_name, result.emergency_contact_number];
+                            var currentInfo = $("#currentInfo");
+                            for (i = 0; i < labelArray.length; i++) {
+                                var span = $("<div>");
+                                span.text(labelArray[i] + ": " + resultArray[i]);
+                                currentInfo.append(span);
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                console.log("You are logged out. Log in and try again.");
+            }
+        });
+    </script>
 </body>
+
 </html>
