@@ -7,6 +7,12 @@ var rider = {
         });
     },
 
+    pullUser: function(email, cb) {
+        orm.selectWhere("users", "*", "email", email, function (res) {
+            cb(res)
+        });
+    },
+
     doesUserExist: function(email, cb) {
         orm.doesExist("users", "email", email, function (res) {
             cb(res);

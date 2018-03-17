@@ -6,7 +6,6 @@ var firebase = require("firebase");
 var router = express.Router();
 
 var driver = require("../models/driver");
-
 var rider = require("../models/rider");
 
 // Line of code that handles the html routes or any invalid paths entered
@@ -25,6 +24,10 @@ router.get("/ridingDriver", function (req, res) {
 
 router.get("/updateInfo", function (req, res) {
     res.sendFile(path.join(__dirname, "../views/updateInfo.html"));
+});
+
+router.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "../views/login.html"));
 });
 
 /* router.get("/success", function (req, res) {
@@ -67,8 +70,13 @@ router.post("/addRider", function (req, res) {
 
 });
 
-router.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "../views/login.html"));
+router.post("/updateInfo", function (req, res) {
+    if (req.body.driver == 1) {
+        driver.updateUser();
+    }
+    else {
+        rider.updateUser();
+    }
 });
 
 module.exports = router;
