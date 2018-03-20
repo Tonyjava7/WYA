@@ -7,7 +7,8 @@
     <title>Update Info</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- <script type="text/javascript" src="../public/assets/js/updateInfo.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <!-- <script src="../public/assets/js/updateInfo.js"></script> -->
 </head>
 
 <body>
@@ -15,53 +16,62 @@
 
     <div>
         <div id="currentInfo"></div>
-        <!-- <form id="updateinfo" class="button-size">
+        <hr>
+        <form id="updateinfo" class="button-size">
             <select name="id">
-                {{#each plans}}
-                <option value="{{this.id}}">{{this.plan}}</option>
-                {{/each}}
+                <option></option>
             </select>
-            <textarea type="text" name="plan" placeholder="plan"></textarea>
-            <button type="submit">Update Plan!</button>
-        </form> -->
-        <!-- <form action="/updateInfo" method="POST">
-            First name:
             <br>
-            <input type="text" name="firstName" placeholder="John" required>
-            <br>
-            <br> Last name:
-            <br>
-            <input type="text" name="lastName" placeholder="Smith" required>
-            <br>
-            <br> Driver:
-            <br> True
-            <input type="radio" name="driver" value=1>
-            <br> False
-            <input type="radio" name="driver" value=0>
-            <br>
-            <br> Email:
-            <br>
-            <input type="email" name="email" placeholder="john.smith@gmail.com" required>
-            <br>
-            <br> Emergency Contact Name:
-            <br>
-            <input type="text" name="emergName" placeholder="Jane Smith" required>
-            <br>
-            <br> Emergency Contact Number:
-            <br>
-            <input type="text" name="emergNumber" placeholder="1234567890" required>
-            <br>
-            <br>
-            <input type="submit" value="Submit">
-        </form> -->
+            <p id="firstName" hidden>
+                First name:
+                <br>
+                <input type="text" name="first_name" placeholder="John">
+                <br>
+                <br>
+            </p>
+            <p id="lastName" hidden>
+                Last name:
+                <br>
+                <input type="text" name="last_name" placeholder="Smith">
+                <br>
+                <br>
+            </p>
+            <p id="changeDriver" hidden>
+                Driver:
+                <br> True
+                <input type="radio" name="driver" value=1>
+                <br> False
+                <input type="radio" name="driver" value=0>
+                <br>
+                <br>
+            </p>
+            <p id="changeEmail" hidden>
+                Email:
+                <br>
+                <input type="email" name="email" placeholder="john.smith@gmail.com">
+                <br>
+                <br>
+            </p>
+            <p id="emergName" hidden>
+                Emergency Contact Name:
+                <br>
+                <input type="text" name="emergency_contact_name" placeholder="Jane Smith">
+                <br>
+                <br>
+            </p>
+            <p id="emergNumb" hidden>
+                Emergency Contact Number:
+                <br>
+                <input type="text" name="emergency_contact_number" placeholder="1234567890">
+                <br>
+                <br>
+            </p>
+        </form>
     </div>
 
     <button id="submit">Submit</button>
 
     <script type="text/javascript">
-        var driver = require("../models/driver");
-        var rider = require("../models/rider");
-        var firebase = require("firebase");
         var config = {
             apiKey: "AIzaSyD9Z4QSlx1pOPRUurwF19-RJjAV9E0mI2w",
             authDomain: "where-ya-at-8a1b1.firebaseapp.com",
@@ -70,40 +80,161 @@
             storageBucket: "where-ya-at-8a1b1.appspot.com",
             messagingSenderId: "667593757795"
         };
+        var email = '';
+        var userIsDriver = '';
         firebase.initializeApp(config);
         firebase.auth().onAuthStateChanged(function (user) {
-            console.log(user);
             if (user) {
-                console.log(user);
-                var userFirst = '';
-                var userLast = '';
-                var userDriver = '';
-                var userEmail = '';
-                var userEmergName = '';
-                var userEmergNumb = '';
                 event.preventDefault();
-                var email = user.email;
-                console.log(email);
-                var driver = rider.isDriver(email, function (res) {
-                    console.log(res);
-                    if (res) {
-                        driver.pullUser(email, function (result) {
-                            console.log(result);
-                            var labelArray = ["First Name: ", "Last Name: ", "Email: ", "Emergency Contact Name", "Emergency Contact Number: "];
-                            var resultArray = [result.first_name, result.last_name, result.driver, result.email, result.emergency_contact_name, result.emergency_contact_number];
+                var databaseNames = ["first_name", "last_name", "driver", "email", "emergency_contact_name", "emergency_contact_number"];
+                var labelArray = ["First Name", "Last Name", "Is A Driver?", "Email", "Emergency Contact Name", "Emergency Contact Number"];
+                email = { userEmail: user.email };
+                $.ajax("/isDriver", {
+                    type: "POST",
+                    data: email
+                }).then(function (res) {
+                    userIsDriver = res.result[0].driver;
+                    if (res.result[0].driver) {
+                        $.ajax("/pullDriverUser", {
+                            type: "POST",
+                            data: email
+                        }).then(function (result) {
+                            var resultArray = [result.result[0].first_name, result.result[0].last_name, result.result[0].driver, result.result[0].email, result.result[0].emergency_contact_name, result.result[0].emergency_contact_number];
                             var currentInfo = $("#currentInfo");
                             for (i = 0; i < labelArray.length; i++) {
-                                var span = $("<div>");
-                                span.text(labelArray[i] + ": " + resultArray[i]);
-                                currentInfo.append(span);
+                                var div = $("<div>");
+                                div.text(labelArray[i] + ": " + resultArray[i]);
+                                currentInfo.append(div);
                             }
+                            loadOptions();
                         });
                     }
-                });
+                    else {
+                        $.ajax("/pullRiderUser", {
+                            type: "POST",
+                            data: email
+                        }).then(function (result) {
+                            console.log(result);
+                            var resultArray = [result.result[0].first_name, result.result[0].last_name, result.result[0].driver, result.result[0].email, result.result[0].emergency_contact_name, result.result[0].emergency_contact_number];
+                            var currentInfo = $("#currentInfo");
+                            for (i = 0; i < labelArray.length; i++) {
+                                var div = $("<div data-edit = '" + databaseNames[i] + "'>");
+                                div.text(labelArray[i] + ": " + resultArray[i]);
+                                currentInfo.append(div);
+                            }
+                            loadOptions();
+                        });
+                    }
+                }
+                );
             }
             else {
                 console.log("You are logged out. Log in and try again.");
             }
+
+            var loadOptions = function () {
+                var tag = $("[name=id]");
+                for (i = 0; i < labelArray.length; i++) {
+                    var updateTag = $("<option value = " + databaseNames[i] + ">");
+                    updateTag.text(labelArray[i]);
+                    tag.append(updateTag);
+                }
+            }
+
+            $('[name=id]').on('change', function () {
+
+                switch ($(this).val()) {
+
+                    case "first_name":
+                        $("#firstName").show();
+                        $("#lastName").hide();
+                        $("#changeDriver").hide();
+                        $("#changeEmail").hide();
+                        $("#emergName").hide();
+                        $("#emergNumb").hide();
+                        break;
+
+                    case "last_name":
+                        $("#lastName").show();
+                        $("#firstName").hide();
+                        $("#changeDriver").hide();
+                        $("#changeEmail").hide();
+                        $("#emergName").hide();
+                        $("#emergNumb").hide();
+                        break;
+
+                    case "driver":
+                        $("#changeDriver").show();
+                        $("#lastName").hide();
+                        $("#firstName").hide();
+                        $("#changeEmail").hide();
+                        $("#emergName").hide();
+                        $("#emergNumb").hide();
+                        break;
+
+                    case "email":
+                        $("#changeEmail").show();
+                        $("#lastName").hide();
+                        $("#changeDriver").hide();
+                        $("#firstName").hide();
+                        $("#emergName").hide();
+                        $("#emergNumb").hide();
+                        break;
+
+                    case "emergency_contact_name":
+                        $("#emergName").show();
+                        $("#lastName").hide();
+                        $("#changeDriver").hide();
+                        $("#changeEmail").hide();
+                        $("#firstName").hide();
+                        $("#emergNumb").hide();
+                        break;
+
+                    case "emergency_contact_number":
+                        $("#emergNumb").show();
+                        $("#lastName").hide();
+                        $("#changeDriver").hide();
+                        $("#changeEmail").hide();
+                        $("#emergName").hide();
+                        $("#firstName").hide();
+                        break;
+
+                }
+            });
+
+            $("#submit").on("click", function (event) {
+                // Make sure to preventDefault on a submit event.
+                event.preventDefault();
+
+                var dbEdit = $('[name=id]').val();
+                var valueToEdit = $("[name=" + dbEdit + "]").val();
+                console.log(dbEdit);
+                console.log(valueToEdit);
+
+                var toUpdate = {
+                    valEdit: valueToEdit,
+                    databaseEdit: dbEdit,
+                    userEmail: email.userEmail,
+                    userDriver: userIsDriver
+                };
+
+                // Send the PUT request.
+                $.ajax("/updateInfo", {
+                    type: "POST",
+                    data: toUpdate
+                }).then(
+                    function () {
+                        console.log("User updated!");
+                        if (userIsDriver) {
+                            window.location.href = "/driver"
+                        }
+
+                        else {
+                            window.location.href = "/rider"
+                        }
+                    }
+                );
+            });
         });
     </script>
 </body>

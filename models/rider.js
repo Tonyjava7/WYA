@@ -31,6 +31,12 @@ var rider = {
         orm.selectWhere("users", "driver", "email", email, function (res) {
             cb(res);
         })
+    },
+
+    updateUser: function(objColVals, condition, cb) {
+        orm.update("users", objColVals, condition, function (res) {
+            cb(res)
+        });
     }
 }
 

@@ -27,7 +27,7 @@ function printQuestionMarks(num) {
         }
         // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
         // e.g. {sleepy: true} => ["sleepy=true"]
-        arr.push(key + "=" + value);
+        arr.push(key + " = " + value);
       }
     }
   
@@ -87,6 +87,25 @@ var orm = {
             cb(result);
         });
     },
+
+    update: function(table, objColVals, condition, cb) {
+        var queryString = "UPDATE " + table;
+    
+        queryString += " SET ";
+        queryString += objToSql(objColVals);
+        queryString += " WHERE ";
+        queryString += condition;
+
+        console.log(queryString);
+    
+        connection.query(queryString, function(err, result) {
+          if (err) {
+            throw err;
+          }
+    
+          cb(result);
+        });
+      }
 }
 
 module.exports = orm;

@@ -29,6 +29,12 @@ var driver = {
         orm.create(tableName, Object.keys(data), Object.values(data), function (res) {
             cb(res);
         })
+    },
+
+    updateUser: function(objColVals, condition, cb) {
+        orm.update("users", objColVals, condition, function (res) {
+            cb(res)
+        });
     }
 }
 
