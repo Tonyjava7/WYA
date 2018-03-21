@@ -72,8 +72,8 @@ router.post("/addUser", function (req, res) {
 });
 
 router.post("/addRider", function (req, res) {
-    driver.addRider(req.body.firstName, req.body.lastName, req.body.fields, function (result) {
-        res.json({ id: result.insertId });
+    driver.pullUser(req.body.id, function (result) {
+        res.send(result);
     })
 
 });
