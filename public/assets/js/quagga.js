@@ -23,14 +23,14 @@ function startScanner() {
         console.log("Barcode detected and processed : [" + result.codeResult.code + "]");
         Quagga.stop();
         alert("student has been scanned");
-        var studentId = result.codeResult.code
+        var studentId = result.codeResult.code;
          // Send the PullUSer request.
 
         $.ajax("/api/riders/" + studentId, {
-          type: "pullUser"
+          type: "POST"
         }).then(
           function() {
-            console.log("deleted cat", studenId);
+            console.log("deleted cat", studentId);
             // Reload the page to get the updated list
             location.reload();
           });

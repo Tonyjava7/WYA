@@ -10,8 +10,8 @@ var rider = require("../models/rider");
 
 // Line of code that handles the html routes or any invalid paths entered
 
-router.get("/home", function (req, res) {
-    res.sendFile(path.join(__dirname, "../views/newUser.html"));
+router.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 
 router.get("/driver", function (req, res) {
@@ -50,6 +50,15 @@ router.get("*", function (req, res) {
     }
 
 }); */
+
+router.post("/api/riders/:studentId", function(req, res) {
+  rider.pullUser(req.params.studentId, function(data) {
+    res.json( data );
+   
+    console.log(data);
+   
+  });
+});
 
 router.post("/addUser", function (req, res) {
     rider.addUser(req.body.firstName, req.body.lastName, req.body.driver, req.body.email, req.body.emergName, req.body.emergNumber, function (result) {

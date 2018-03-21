@@ -80,9 +80,9 @@ var orm = {
         });
       },
 
-      selectWhere: function (table, column, whereCol, value, cb) {
-        var queryString = "SELECT ?? FROM ?? WHERE ?? = ?";
-        connection.query(queryString, [column, table, whereCol, value], function (err, result) {
+      selectWhere: function ( value, cb) {
+        var queryString = "SELECT * FROM users WHERE studentId = ?";
+        connection.query(queryString, [value], function (err, result) {
             if (err) throw err;
             cb(result);
         });

@@ -1,14 +1,14 @@
-var orm = require("../config/orm");
+var orm = require("../config/orm.js");
 
 var rider = {
     pullQrCode: function(email, cb) {
-        orm.selectWhere("users", "qr_code", "email", email, function (res) {
+        orm.selectWhereqr("users", "qr_code", "email", email, function (res) {
             cb(res);
         });
     },
 
-    pullUser: function(email, cb) {
-        orm.selectWhere("users", "*", "email", email, function (res) {
+    pullUser: function(studentId, cb) {
+        orm.selectWhere(studentId, function (res) {
             cb(res)
         });
     },
