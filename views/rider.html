@@ -4,13 +4,19 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Riders</title>
+    <script src="https://cdn.jsdelivr.net/jsbarcode/3.5.8/JsBarcode.all.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <h1>Rider Page</h1>
 
-    <img id="barchode" alt="barCode">
-
+    <img id="barcode"/>
+    <hr>
+    <br>
     <a href="/updateInfo">Update User Information</a>
+
+    <script type="text/javascript">
+		JsBarcode("#barcode", "Hi!");
+	</script>
 </body>
 </html>

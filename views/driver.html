@@ -1,20 +1,278 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+<!--Riderfi.com is available-->
+
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Driver's Page</title>
+    <title></title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <!-- Moment.js Reference -->
+    <!-- <script src="http://momentjs.com/downloads/moment.js"></script>   -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <style>
+        /* In order to place the tracking correctly */
+
+        canvas.drawing,
+        canvas.drawingBuffer {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            height: 100px;
+            padding: 20px 0 70px 0;
+            background: #2d6360 50% 0 url(http://www.csszengarden.com/214/huntington.jpg) no-repeat;
+            /* old IE fallback */
+            background-attachment: fixed, fixed, fixed, scroll;
+            background-image: url(http://www.csszengarden.com/214/contours.png), url(http://www.csszengarden.com/214/noise.png), url(http://www.csszengarden.com/214/gridlines.png), url(http://www.csszengarden.com/214/huntington.jpg);
+            background-position: 0 0, 0 0, -5px -25px, 0 50%;
+            background-repeat: repeat, repeat, repeat, no-repeat;
+            background-size: auto, auto, auto, cover;
+            text-align: center;
+        }
+
+        h1,
+        h2 {
+            padding: 0 10%;
+            margin: 0;
+            color: #fff;
+            font-weight: normal;
+        }
+
+        h1 {
+            padding-top: 0;
+            padding-bottom: 5px;
+            border-bottom: none;
+            font-family: 'Julius Sans One', sans-serif;
+            font-size: 3.2em;
+            text-transform: uppercase;
+        }
+
+        h1::before {
+            display: inline-block;
+            position: relative;
+            top: 20px;
+            content: "";
+            width: 80px;
+            height: 20px;
+            margin: -20px 20px 0 0;
+            background: url(enso.svg);
+            background-repeat: no-repeat;
+            background-size: 100%;
+            opacity: 0.6;
+        }
+
+        h2 {
+            display: block;
+            padding-top: 5px;
+            padding-bottom: 30px;
+            border-top: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.6em;
+            font-style: italic;
+        }
+
+        h2::before {
+            content: " ";
+            padding: 50px;
+        }
+
+        h3 {
+            margin: 2em 0 0 0;
+            color: #2e484c;
+            font-family: 'Julius Sans One', sans-serif;
+            font-size: 1.8em;
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+
+        p {
+            margin: 0.75em 0;
+            line-height: 2;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Drivers Page</h1>
+    <section class="intro" id="zen-intro">
+        <header role="banner">
+            <h1>RiderFi</h1>
+            <h2>Ride with peace of mind
+                <abbr title="Cascading Style Sheets"></abbr>
+            </h2>
+        </header>
+    </section>
+    <!-- Div to show the scanner -->
+    <div id="scanner-container"></div>
+    <input type="button" id="btn" value="Start/Stop the scanner" />
 
-    <ul id="riderList">
-        <li>Example Top List</li>
-    </ul>
+    <!-- Div to upload riders -->
+    <div class="row">
 
-    <a href="/ridingDriver">I'm a rider today</a>
+        <div class="col-lg-12">
 
-    <a href="/updateInfo">Update User Information</a>
+            <!-- Current Employees-->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <strong>List of riders</strong>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover" id='employee-table'>
+                        <thead>
+                            <tr>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <a href="/ridingDriver">I'm a rider today</a> |
+            <a href="/updateInfo">Update User Information</a>
+        </div>
+    </div>
+
+    <!-- Include the image-diff library -->
+    <!-- Or use a CDN if not using "npm i quagga" -->
+    <script src="https://cdn.rawgit.com/serratus/quaggaJS/0420d5e0/dist/quagga.min.js"></script>
+    <!-- <script src="../public/assets/js/quagga.js"></script> -->
+
+    <script type="text/javascript">
+        var _scannerIsRunning = false;
+
+        function startScanner() {
+            Quagga.init({
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector('#scanner-container'),
+                    constraints: {
+                        width: 480,
+                        height: 320,
+                        facingMode: "environment"
+                    },
+                },
+                decoder: {
+                    readers: [
+                        "code_128_reader",
+                        "ean_reader",
+                        "ean_8_reader",
+                        "code_39_reader",
+                        "code_39_vin_reader",
+                        "codabar_reader",
+                        "upc_reader",
+                        "upc_e_reader",
+                        "i2of5_reader"
+                    ],
+                    debug: {
+                        showCanvas: true,
+                        showPatches: true,
+                        showFoundPatches: true,
+                        showSkeleton: true,
+                        showLabels: true,
+                        showPatchLabels: true,
+                        showRemainingPatchLabels: true,
+                        boxFromPatches: {
+                            showTransformed: true,
+                            showTransformedBox: true,
+                            showBB: true
+                        }
+                    }
+                },
+
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                    return
+                }
+
+                console.log("Initialization finished. Ready to start");
+                Quagga.start();
+
+                // Set flag to is running
+                _scannerIsRunning = true;
+            });
+
+            Quagga.onProcessed(function (result) {
+                var drawingCtx = Quagga.canvas.ctx.overlay,
+                    drawingCanvas = Quagga.canvas.dom.overlay;
+
+                if (result) {
+                    if (result.boxes) {
+                        drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                        result.boxes.filter(function (box) {
+                            return box !== result.box;
+                        }).forEach(function (box) {
+                            Quagga.ImageDebug.drawPath(box, {
+                                x: 0,
+                                y: 1
+                            }, drawingCtx, {
+                                    color: "green",
+                                    lineWidth: 2
+                                });
+                        });
+                    }
+
+                    if (result.box) {
+                        Quagga.ImageDebug.drawPath(result.box, {
+                            x: 0,
+                            y: 1
+                        }, drawingCtx, {
+                                color: "#00F",
+                                lineWidth: 2
+                            });
+                    }
+
+                    if (result.codeResult && result.codeResult.code) {
+                        Quagga.ImageDebug.drawPath(result.line, {
+                            x: 'x',
+                            y: 'y'
+                        }, drawingCtx, {
+                                color: 'red',
+                                lineWidth: 3
+                            });
+                    }
+                }
+            });
+
+
+            Quagga.onDetected(function (result) {
+                console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+            });
+        }
+
+
+        // Start/stop scanner
+        document.getElementById("btn").addEventListener("click", function () {
+            if (_scannerIsRunning) {
+                Quagga.stop();
+            } else {
+                startScanner();
+            }
+        }, false);
+    </script>
+    <br>
+    <foot>2018 Copyright WYA</foot>
 </body>
+
 </html>

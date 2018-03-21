@@ -1,8 +1,8 @@
 var orm = require("../config/orm");
 
 var rider = {
-    pullQrCode: function(email, cb) {
-        orm.selectWhere("users", "qr_code", "email", email, function (res) {
+    pullQrCode: function(id, cb) {
+        orm.selectWhere("users", "*", "rider_id", id, function (res) {
             cb(res);
         });
     },
