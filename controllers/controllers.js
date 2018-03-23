@@ -59,36 +59,46 @@ router.get("*", function (req, res) {
 
 }); */
 
-router.post("/api/riders/:studentId", function(req, res) {
-    rider.pullUser(req.params.studentId, function(data) {
-      res.json( data );
-     
-      console.log(data);
-     
-    });
-  });
-  router.post("/api/riders/:first_name", function(req, res) {
-      rider.pullUsername(req.params.first_name, function(data) {
-        res.json( data );
-       
+router.post("/api/riders/:studentId", function (req, res) {
+    rider.pullUserByStudentId(req.params.studentId, function (data) {
+        res.json(data);
+
         console.log(data);
-       
-      });
+
     });
+});
+
+router.post("/api/riders/email/:email", function (req, res) {
+    rider.pullUserByEmail(req.params.email, function (data) {
+        console.log(data);
+        res.send(data);
+    });
+});
+
+router.post("/api/riders/:first_name", function (req, res) {
+    rider.pullUsername(req.params.first_name, function (data) {
+        res.json(data);
+
+        console.log(data);
+
+    });
+});
 
 router.post("/api/riders", function (req, res) {
-    rider.addUser(["first_name","last_name","email","emergency_contact_name","emergency_contact_number","studentId"],
-        
-        [req.body.firstName, req.body.lastName,  req.body.email, req.body.emergName, req.body.emergNumber], function (data) {
-        res.json( data );
-       
-        console.log(data);
-    })
-
+    var studentId = parseInt(Math.floor(Math.random() * 9000000000) + 1000000000);
+    rider.addUser(["first_name", "last_name", "email", "emergency_contact_name", "emergency_contact_number", "studentId"],
+        [req.body.firstName, req.body.lastName, req.body.email, req.body.emergName, req.body.emergNumber, studentId], function (data) {
+            if (req.body.driver == 1) {
+                res.sendFile(path.join(__dirname, "../views/driver.html"));
+            }
+            else {
+                res.sendFile(path.join(__dirname, "../views/rider.html"));
+            }
+        })
 });
 
 router.post("/addRider", function (req, res) {
-    driver.pullUser(req.body.id, function (result) {
+    driver.pullUserByStudentId(req.body.id, function (result) {
         res.send(result);
     })
 
@@ -103,39 +113,39 @@ router.post("/updateInfo", function (req, res) {
         driver.updateUser(objColVals, condition, function (result) {
             if (result.changedRows == 0) {
                 return res.status(404).end();
-              } else {
+            } else {
                 res.status(200).end();
-                
-              }
+
+            }
         });
     }
     else {
         rider.updateUser(objColVals, condition, function (result) {
             if (result.changedRows == 0) {
                 return res.status(404).end();
-              } else {
+            } else {
                 res.status(200).end();
-              }
+            }
         });
     }
 });
 
 router.post("/isDriver", function (req, res) {
-    rider.isDriver(req.body.userEmail, function(result) {
-        res.send({result})
+    rider.isDriver(req.body.userEmail, function (result) {
+        res.send({ result })
     })
 });
 
 router.post("/pullDriverUser", function (req, res) {
-    rider.pullUser(req.body.userEmail, function(result) {
+    rider.pullUserByEmail(req.body.userEmail, function (result) {
         console.log(result);
-        res.send({result});
+        res.send({ result });
     })
 });
 
 router.post("/pullRiderUser", function (req, res) {
-    rider.pullUser(req.body.userEmail, function(result) {
-        res.send({result});
+    rider.pullUserByEmail(req.body.userEmail, function (result) {
+        res.send({ result });
     })
 });
 

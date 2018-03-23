@@ -6,76 +6,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>New User Set Up</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-   
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
 </head>
 
 <body>
     <h1>New User Set Up</h1>
 
-    <form >
+    <form action="/api/riders" method="POST" id="addUser">
         First name:
         <br>
-        <input type="text" id="first_name" placeholder="John" required>
+        <input type="text" name="firstName" placeholder="John" required>
         <br>
         <br> Last name:
         <br>
-        <input type="text" id="last_name" placeholder="Smith" required>
+        <input type="text" name="lastName" placeholder="Smith" required>
         <br>
-        <br> Email:
-        <br>
-        <input type="text" id="email" placeholder="Enter email" required>
-        <br>
-     
         <br> Emergency Contact Name:
         <br>
-        <input type="text" id="emergName" placeholder="Jane Smith" required>
+        <input type="text" name="emergName" placeholder="Jane Smith" required>
         <br>
         <br> Emergency Contact Number:
         <br>
-        <input type="text" id="emergNumber" placeholder="1234567890" required>
+        <input type="text" name="emergNumber" placeholder="1234567890" required>
         <br>
         <br>
-        <a href="/rider"> <input type="submit" id="new" value="Submit"></a>
+        <input type="submit" value="Submit">
     </form>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-         $("#new").on("click", function(event) {
-             
-            var riders = {
-        first_name : $("#first_name").val(),
-        last_name : $("#last_name").val(),
-        email : $("#email").val(),
-        emergName: $("#emergName").val(),
-        emergNumber : $("#emergNumber").val()
-            };
+    <script type="text/javascript">
+        var config = {
+            apiKey: "AIzaSyD9Z4QSlx1pOPRUurwF19-RJjAV9E0mI2w",
+            authDomain: "where-ya-at-8a1b1.firebaseapp.com",
+            databaseURL: "https://where-ya-at-8a1b1.firebaseio.com",
+            projectId: "where-ya-at-8a1b1",
+            storageBucket: "where-ya-at-8a1b1.appspot.com",
+            messagingSenderId: "667593757795"
+        };
+        var email = '';
+        var userIsDriver = '';
+        firebase.initializeApp(config);
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                event.preventDefault();
+                email = user.email;
+                var newEmail = $("<input type='email' name='email' value=" + email +" required hidden>");
+                var newDriver = $("<input type='text' name='driver' value=0 required hidden>");
+                $("#addUser").append(newEmail);
+                $("#addUser").append(newDriver);
 
-        $.ajax("/api/riders",{
-               type: "POST",
-             data: rider
-                }).then(function(res) {
-                  console.log( res);
-                   // if(res[0].onBus){
-
-                 }
-
-
-
-                    // Reload the page to get the updated list
-                   // location.reload();
-                 );
-           
-
-      
-       //var studentId = $("#StudentId").val();
-    sessionStorage.setItem("name", first_name);
- 
-         });
-
-          $("#first_name").text(sessionStorage.getItem("name"));
-          //$("#name").text(sessionStorage.setItem("studentId"));
+            }
+        });
     </script>
 
 

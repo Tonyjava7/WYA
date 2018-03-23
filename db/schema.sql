@@ -10,6 +10,6 @@ CREATE TABLE users
     email varchar(255) NOT NULL,
     emergency_contact_name varchar(255) NOT NULL,
     emergency_contact_number varchar(255) NOT NULL,
-    rider_id INT(11) NOT NULL
+    studentId BIGINT NOT NULL,
 	PRIMARY KEY (id)
 );
