@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Riders</title>
     <script src="https://cdn.jsdelivr.net/jsbarcode/3.5.8/JsBarcode.all.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -16,7 +18,27 @@
     <a href="/updateInfo">Update User Information</a>
 
     <script type="text/javascript">
-		JsBarcode("#barcode", "Hi!");
+        var config = {
+        apiKey: "AIzaSyD9Z4QSlx1pOPRUurwF19-RJjAV9E0mI2w",
+        authDomain: "where-ya-at-8a1b1.firebaseapp.com",
+        databaseURL: "https://where-ya-at-8a1b1.firebaseio.com",
+        projectId: "where-ya-at-8a1b1",
+        storageBucket: "where-ya-at-8a1b1.appspot.com",
+        messagingSenderId: "667593757795"
+    };
+    var email = '';
+    firebase.initializeApp(config);
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            event.preventDefault();
+            email = user.email;
+        $.ajax("/api/riders/email/" + email, {
+                type: "POST"
+            }).then(function (res) {
+                JsBarcode("#barcode", res[0].studentId);
+            });
+        }
+    });
 	</script>
 </body>
 </html>

@@ -13,7 +13,7 @@ else {
         host: "localhost",
         port: 3306,
         user: "root",
-        password: "rock23",
+        password: "Peach0511",
         database: "wya_db"
     })
 };
