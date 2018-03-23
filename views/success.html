@@ -12,12 +12,70 @@
 </head>
 
 <body>
-    <div>
-        <h1>Success</h1>
+    <div class="container">
+        <div class="jumbotron">
+                <h1 class="text-center" id="name"></h1>
+                <h1 class="text-center" id="studentId"></h1>
+              </div>
+          
+              <div class="row">
+    <h1>New User Set Up</h1>
+
+    <form action="/addUser" method="POST">
+        First name:
+        <br>
+        <input type="text" id="first_name" name="firstName" placeholder="John" required>
+        <br>
+        <br>
+        Last name:
+        <br>
+        <input type="text" name="lastName" placeholder="Smith" required>
+        <br>
+        <br>
+        Driver:
+        <br>
+        True 
+        <input type="radio" name="driver" value=1>
+        <br>
+        False 
+        <input type="radio" name="driver" value=0>
+        <br>
+        <br>
+        Email:
+        <br>
+        <input type="email" name="email" placeholder="john.smith@gmail.com" required>
+        <br>
+        <br>
+        Emergency Contact Name:
+        <br>
+        <input type="text" name="emergName" placeholder="Jane Smith" required>
+        <br>
+        <br>
+        Emergency Contact Number:
+        <br>
+        <input type="text" name="emergNumber" placeholder="1234567890" required>
+        <br>
+       
+        <br>
+        <a href="/add"> <input type="submit" id="new" value="Submit"></a>
+    </form>
     </div>
 </body>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+  $("#new").on("click", function(event) {
+
+var first_name = $("#first_name").val();
+//var studentId = $("#StudentId").val();
+sessionStorage.setItem("name", first_name);
+sessionStorage.setItem("studentId", studentId);
+  });
+
+   $("#first_name").text(sessionStorage.getItem("name"));
+   //$("#name").text(sessionStorage.setItem("studentId"));
+
+
     var config = {
         apiKey: "AIzaSyD9Z4QSlx1pOPRUurwF19-RJjAV9E0mI2w",
         authDomain: "where-ya-at-8a1b1.firebaseapp.com",
