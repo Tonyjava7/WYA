@@ -4,112 +4,82 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Success</title>
-    <link rel="stylesheet" href="../public/assets/css/success.css" type="text/css" />
+    <title>New User Set Up</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+   
 </head>
 
 <body>
-    <div class="container">
-        <div class="jumbotron">
-                <h1 class="text-center" id="name"></h1>
-                <h1 class="text-center" id="studentId"></h1>
-              </div>
-          
-              <div class="row">
     <h1>New User Set Up</h1>
 
-    <form action="/addUser" method="POST">
+    <form >
         First name:
         <br>
-        <input type="text" id="first_name" name="firstName" placeholder="John" required>
+        <input type="text" id="first_name" placeholder="John" required>
+        <br>
+        <br> Last name:
+        <br>
+        <input type="text" id="last_name" placeholder="Smith" required>
+        <br>
+        <br> Email:
+        <br>
+        <input type="text" id="email" placeholder="Enter email" required>
+        <br>
+     
+        <br> Emergency Contact Name:
+        <br>
+        <input type="text" id="emergName" placeholder="Jane Smith" required>
+        <br>
+        <br> Emergency Contact Number:
+        <br>
+        <input type="text" id="emergNumber" placeholder="1234567890" required>
         <br>
         <br>
-        Last name:
-        <br>
-        <input type="text" name="lastName" placeholder="Smith" required>
-        <br>
-        <br>
-        Driver:
-        <br>
-        True 
-        <input type="radio" name="driver" value=1>
-        <br>
-        False 
-        <input type="radio" name="driver" value=0>
-        <br>
-        <br>
-        Email:
-        <br>
-        <input type="email" name="email" placeholder="john.smith@gmail.com" required>
-        <br>
-        <br>
-        Emergency Contact Name:
-        <br>
-        <input type="text" name="emergName" placeholder="Jane Smith" required>
-        <br>
-        <br>
-        Emergency Contact Number:
-        <br>
-        <input type="text" name="emergNumber" placeholder="1234567890" required>
-        <br>
-       
-        <br>
-        <a href="/add"> <input type="submit" id="new" value="Submit"></a>
+        <a href="/rider"> <input type="submit" id="new" value="Submit"></a>
     </form>
-    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+         $("#new").on("click", function(event) {
+            var barNum =Math.floor(Math.random() * 9000000000) + 1000000000; 
+           var rider ={
+        first_name : $("#first_name").val(),
+         last_name : $("#last_name").val(),
+        email : $("#email").val(),
+        emergName: $("#emergName").val(),
+         emergNumber : $("#emergNumber").val(),
+         studentId : barNum
+           };
+
+        $.ajax("/api/riders",{
+               type: "POST",
+                data: rider     
+                }).then(function(res) {
+                  console.log( res);
+                   // if(res[0].onBus){
+
+                 }
+
+
+
+                    // Reload the page to get the updated list
+                   // location.reload();
+                 );
+           
+
+      
+       //var studentId = $("#StudentId").val();
+    sessionStorage.setItem("name", first_name);
+ 
+         });
+
+          $("#first_name").text(sessionStorage.getItem("name"));
+          //$("#name").text(sessionStorage.setItem("studentId"));
+    </script>
+
+
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript">
-
-  $("#new").on("click", function(event) {
-
-var first_name = $("#first_name").val();
-//var studentId = $("#StudentId").val();
-sessionStorage.setItem("name", first_name);
-sessionStorage.setItem("studentId", studentId);
-  });
-
-   $("#first_name").text(sessionStorage.getItem("name"));
-   //$("#name").text(sessionStorage.setItem("studentId"));
-
-
-    var config = {
-        apiKey: "AIzaSyD9Z4QSlx1pOPRUurwF19-RJjAV9E0mI2w",
-        authDomain: "where-ya-at-8a1b1.firebaseapp.com",
-        databaseURL: "https://where-ya-at-8a1b1.firebaseio.com",
-        projectId: "where-ya-at-8a1b1",
-        storageBucket: "where-ya-at-8a1b1.appspot.com",
-        messagingSenderId: "667593757795"
-    };
-    var email = '';
-    firebase.initializeApp(config);
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            event.preventDefault();
-            email = { userEmail: user.email };
-            $.ajax("/isDriver", {
-                type: "POST",
-                data: email
-            }).then(function (res) {
-                if (res.result.length > 0) {
-                    if (res.result[0].driver) {
-                        window.location.href = "/driver"
-                    }
-                    else {
-                        window.location.href = "/rider"
-                    }
-                }
-                else {
-                    window.location.href = "/newUser"
-                }
-            });
-
-        }
-
-    });
-</script>
 
 </html>

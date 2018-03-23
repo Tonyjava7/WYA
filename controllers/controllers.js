@@ -59,14 +59,30 @@ router.get("*", function (req, res) {
 
 }); */
 
-router.post("/addUser", function (req, res) {
-    rider.addUser(req.body.firstName, req.body.lastName, req.body.driver, req.body.email, req.body.emergName, req.body.emergNumber, function (result) {
-        if (req.body.driver == 1) {
-            res.sendFile(path.join(__dirname, "../views/driver.html"));
-        }
-        else {
-            res.sendFile(path.join(__dirname, "../views/rider.html"));
-        }
+router.post("/api/riders/:studentId", function(req, res) {
+    rider.pullUser(req.params.studentId, function(data) {
+      res.json( data );
+     
+      console.log(data);
+     
+    });
+  });
+  router.post("/api/riders/:first_name", function(req, res) {
+      rider.pullUsername(req.params.first_name, function(data) {
+        res.json( data );
+       
+        console.log(data);
+       
+      });
+    });
+
+router.post("/api/riders", function (req, res) {
+    rider.addUser(["first_name","last_name","email","emergency_contact_name","emergency_contact_number","studentId"],
+        
+        [req.body.firstName, req.body.lastName,  req.body.email, req.body.emergName, req.body.emergNumber], function (data) {
+        res.json( data );
+       
+        console.log(data);
     })
 
 });
