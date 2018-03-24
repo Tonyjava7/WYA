@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <style>
         /* In order to place the tracking correctly */
-        
+
         canvas.drawing,
         canvas.drawingBuffer {
             position: absolute;
@@ -30,133 +30,138 @@
 </head>
 
 <body>
-        <div class="container blue-grey darken-3 white-text">
-    <section class="intro" id="zen-intro">
-        <header role="banner">
-            <h1>Driver Scanner</h1>
-            <h2>Ride with peace of mind<abbr title="Cascading Style Sheets"></abbr></h2>
-        </header>
-    </section>
-    <!-- Div to show the scanner -->
-    <div id="scanner-container"></div>
-    
-    <a class="waves-effect waves-light btn" id="btn">Start/Stop Scanners</a>
+    <div class="container blue-grey darken-3 white-text">
+        <section class="intro" id="zen-intro">
+            <header role="banner">
+                <h1>Driver Scanner</h1>
+                <h2>Ride with peace of mind
+                    <abbr title="Cascading Style Sheets"></abbr>
+                </h2>
+            </header>
+        </section>
+        <!-- Div to show the scanner -->
+        <div id="scanner-container"></div>
 
-    <!-- Div to upload riders -->
-    
-    
+        <a class="waves-effect waves-light btn" id="btn">Start/Stop Scanners</a>
 
-            <!-- Current Employees-->
-           
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><strong>List of riders</strong></h3>
-                </div>
-          
-                    <table class="responsive-table">
-                        <thead>
-                            <tr>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Student ID</th>
-                                    <th>Time</th>
+        <!-- Div to upload riders -->
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+
+
+        <!-- Current Employees-->
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <strong>List of riders</strong>
+                </h3>
             </div>
+
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Student ID</th>
+                        <th>Time</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
-   </div>
+    </div>
+    </div>
+    </div>
 
 
-    </body>
+</body>
 
-    <!-- Include the image-diff library -->
-    <!-- Or use a CDN if not using "npm i quagga" -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.rawgit.com/serratus/quaggaJS/0420d5e0/dist/quagga.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-    <script>var _scannerIsRunning = false;
+<!-- Include the image-diff library -->
+<!-- Or use a CDN if not using "npm i quagga" -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/serratus/quaggaJS/0420d5e0/dist/quagga.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+<script>
+    var _scannerIsRunning = false;
 
-        var createRow = function(data) {
-      // Get reference to existing tbody element, create a new table row element
-      var tBody = $("tbody");
-      var tRow = $("<tr>");
+    var createRow = function (data) {
+        // Get reference to existing tbody element, create a new table row element
+        var tBody = $("tbody");
+        var tRow = $("<tr>");
 
-      // Methods run on jQuery selectors return the selector they we run on
-      // This is why we can create and save a reference to a td in the same statement we update its text
-      var titleTd = $("<td>").text(data[0].first_name);
-      var yearTd = $("<td>").text(data[0].last_name);
-      var actorsTd = $("<td>").text(data[0].studentId);
-      var time = moment().format('MMMM Do YYYY, h:mm:ss a');
-      // Append the newly created table data to the table row
-      tRow.append(titleTd, yearTd, actorsTd,time);
-      // Append the table row to the table body
-      tBody.append(tRow);
+        // Methods run on jQuery selectors return the selector they we run on
+        // This is why we can create and save a reference to a td in the same statement we update its text
+        var titleTd = $("<td>").text(data[0].first_name);
+        var yearTd = $("<td>").text(data[0].last_name);
+        var actorsTd = $("<td>").text(data[0].studentId);
+        var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+        // Append the newly created table data to the table row
+        tRow.append(titleTd, yearTd, actorsTd, time);
+        // Append the table row to the table body
+        tBody.append(tRow);
     }
 
-        function startScanner() {
-            Quagga.init({
-                inputStream : {
-                  name : "Live",
-                  type : "LiveStream",
-                  target: document.querySelector('#scanner-container')    // Or '#yourElement' (optional) 
-                },
-                decoder : {
-                  readers : ["code_128_reader"]
-                }
-              }, function(err) {
-                  if (err) {
-                      console.log(err);
-                      return
-                  }
-                  console.log("Initialization finished. Ready to start");
-                  Quagga.start();
-                  _scannerIsRunning = true;
-              });
-        
-            Quagga.onDetected(function(result) {
-                console.log("Barcode detected and processed : [" + result.codeResult.code + "]");
-               
-                alert("student has been scanned");
-                var studentId = result.codeResult.code
-                 // Send the PullUSer request.
-        
-                $.ajax("/api/riders/" + studentId, {
-                  type: "POST"
-                }).then(function(res) {
-                    console.log( res);
-                   // if(res[0].onBus){
-
-                   // }
-                    createRow(res);
-
-
-
-                    // Reload the page to get the updated list
-                   // location.reload();
-                  });
-               
-              });
-        
-            
-        }
-        
-        
-        // Start/stop scanner
-        document.getElementById("btn").addEventListener("click", function() {
-            if (_scannerIsRunning) {
-                Quagga.stop();
-                $("#scanner-container").hide();
-                _scannerIsRunning = false;
-            } else {
-                startScanner();
+    function startScanner() {
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#scanner-container')    // Or '#yourElement' (optional) 
+            },
+            decoder: {
+                readers: ["code_128_reader"]
             }
-        });</script>
-    
+        }, function (err) {
+            if (err) {
+                console.log(err);
+                return
+            }
+            console.log("Initialization finished. Ready to start");
+            Quagga.start();
+            _scannerIsRunning = true;
+        });
+
+        Quagga.onDetected(function (result) {
+            console.log("Barcode detected and processed : [" + result.codeResult.code + "]");
+
+            alert("student has been scanned");
+            var studentId = result.codeResult.code
+            // Send the PullUSer request.
+
+            $.ajax("/api/riders/" + studentId, {
+                type: "POST"
+            }).then(function (res) {
+                console.log(res);
+                // if(res[0].onBus){
+
+                // }
+                createRow(res);
+
+
+
+                // Reload the page to get the updated list
+                // location.reload();
+            });
+
+        });
+
+
+    }
+
+
+    // Start/stop scanner
+    document.getElementById("btn").addEventListener("click", function () {
+        if (_scannerIsRunning) {
+            Quagga.stop();
+            $("#scanner-container").hide();
+            _scannerIsRunning = false;
+        } else {
+            startScanner();
+        }
+    });</script>
+
 
 </html>
