@@ -1,3 +1,5 @@
-INSERT INTO users (first_name, last_name, driver, email, emergency_contact_name, emergency_contact_number, studentId) VALUES ('LeBron', 'James', true, 'lbj@cav.com', 'Kyrie Irving', '1234567894', 23);
-INSERT INTO users (first_name, last_name, email, emergency_contact_name, emergency_contact_number, studentId) VALUES ('James', 'Harrison', 'harrison@steeler4lyfe.net', 'Cowher', '1234567894', 92);
-INSERT INTO users (first_name, last_name, email, emergency_contact_name, emergency_contact_number, studentId) VALUES ('LeVeon', 'Bell', 'juice@bestever.edu', 'Tomlin', '1234567894', 26);
+INSERT INTO users (first_name, last_name, driver, email, emergency_contact_name, emergency_contact_number, studentId) VALUES ('Tony', 'Chung', true, 'tonychung1976@gmail.com', 'Kyrie Irving', '1234567894', 8195011396);
+INSERT INTO users (first_name, last_name, email, emergency_contact_name, emergency_contact_number, studentId) VALUES ('James', 'Henley', 'james.l.henley@gmail.com', 'Sheree Johnson', '1234567894', 9752823242);
+INSERT INTO users (first_name, last_name, email, emergency_contact_name, emergency_contact_number, studentId) VALUES ('Wilfred', 'Gumps', 'fwgumbs@gmail.com', 'Mike Tomlin', '1234567894', 5042004623);
+INSERT INTO users (first_name, last_name, email, emergency_contact_name, emergency_contact_number, studentId) VALUES ('Phil', 'Hampton', 'Philhampton1@yahoo.com', 'James Harrison', '1234567894', 5307101795);
+INSERT INTO users (first_name, last_name, email, emergency_contact_name, emergency_contact_number, studentId) VALUES ('Curtis', 'Gordan', 'gordon2_curtis@yahoo.com', 'LeBron Jame', '1234567894', 3210413597);
