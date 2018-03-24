@@ -6,11 +6,54 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>New User Set Up</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+
+      <!-- Compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+      <link rel="stylesheet" href="../public/assets/css/style1.css" type="text/css" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
 </head>
 
 <body>
+    <div class="container blue-grey darken-2 white-text">
+            <h1>New User Set Up</h1>
+        <div class="row ">
+                <form class="col s12 p3" action="/api/riders" method="POST">
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <input  id="first_name" type="text" class="validate white-text">
+                      <label for="first_name" name="firstName">First Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="last_name" type="text" class="validate">
+                      <label for="last_name" name="lastName">Last Name</label>
+                    </div>
+                  </div>
+          
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <input id="password" type="text" class="validate">
+                      <label for="password" name="emergName">Emergency Contact Name: </label>
+                    </div>
+              
+                
+                    <div class="input-field col s6">
+                      <input id="email" type="text" class="validate">
+                      <label for="email"
+                      name="emergName">Emergency Contact Number: </label>
+                    </div>
+                  </div>
+                  <div class="row">
+                  <button class="btn waves-effect waves-light" type="submit" name="action"
+                  value="Submit">Submit
+                        <i class="material-icons right">send</i>
+                      </button>
+                    </div>
+                </form>
+              </div>
+                    </div>
     <h1>New User Set Up</h1>
 
     <form action="/api/riders" method="POST" id="addUser">
