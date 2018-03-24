@@ -4,7 +4,7 @@ var express = require("express");
 var firebase = require("firebase");
 var moment = require('moment');
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey("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");
+sgMail.setApiKey(process.env.SEND_API_KEY);
 
 var router = express.Router();
 
