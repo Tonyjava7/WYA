@@ -59,6 +59,7 @@
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Student ID</th>
+                                    <th>Time</th>
 
                             </tr>
                         </thead>
@@ -75,6 +76,7 @@
     <!-- Include the image-diff library -->
     <!-- Or use a CDN if not using "npm i quagga" -->
     <script src="https://cdn.rawgit.com/serratus/quaggaJS/0420d5e0/dist/quagga.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <script>var _scannerIsRunning = false;
 
         var createRow = function(data) {
@@ -87,8 +89,9 @@
       var titleTd = $("<td>").text(data[0].first_name);
       var yearTd = $("<td>").text(data[0].last_name);
       var actorsTd = $("<td>").text(data[0].studentId);
+      var time = moment().format('MMMM Do YYYY, h:mm:ss a');
       // Append the newly created table data to the table row
-      tRow.append(titleTd, yearTd, actorsTd);
+      tRow.append(titleTd, yearTd, actorsTd,time);
       // Append the table row to the table body
       tBody.append(tRow);
     }
