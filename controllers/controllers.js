@@ -2,6 +2,9 @@
 var path = require("path");
 var express = require("express");
 var firebase = require("firebase");
+var moment = require('moment');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 var router = express.Router();
 
@@ -63,7 +66,16 @@ router.post("/api/riders/:studentId", function (req, res) {
     rider.pullUserByStudentId(req.params.studentId, function (data) {
         res.json(data);
 
-        console.log(data);
+        console.log(data[0].email);
+        var time = moment().format('MMMM Do YYYY, h:mm:ss a');
+        const msg = {
+            to: data[0].email,
+            from: 'info@WYA.com',
+            subject: 'Public School bus alert',
+            text: data[0].first_name +" "+ data[0].last_name +' has been scanned on the bus at ' + time ,
+            html: data[0].first_name +" "+ data[0].last_name +' has been scanned on the bus at ' + time 
+          };
+          sgMail.send(msg);
 
     });
 });
