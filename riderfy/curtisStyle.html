@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>wya</title>
+    <meta charset=“utf-8”>
+
+    <!-- Compressed CSS -->
+    <link rel=“stylesheet” href=“https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css” integrity=“sha256-itWEYdFWzZPBG78bJOOiQIn06QCgN/F0wMDcC4nOhxY=”
+        crossorigin=“anonymous” />
+
+    <!-- Compressed JavaScript -->
+    <script src=“https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js” integrity=“sha256-Nd2xznOkrE9HkrAMi4xWy/hXkQraXioBg9iYsBrcFrs=”
+        crossorigin=“anonymous”></script>
+    <!-- Bootstrap CSS-->
+    <link rel=“stylesheet” href=“https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css” integrity=“sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy”
+        crossorigin=“anonymous”>
+    <!-- JQuery UI CSS-->
+    <link rel=“stylesheet” href=“https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css”>
+
+    <!-- Compiled and minified CSS -->
+    <link rel=“stylesheet” href=“https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css”>
+    <!-- Local CSS -->
+    <link rel=“stylesheet” type=“text/css” href=“../public/assets/css/main.css”>
+    <link rel=“stylesheet” type=“text/css” href=“../public/assets/css/main.scss”>
+    <!-- Compiled and minified JavaScript -->
+    <script defer src=“https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js”></script>
+    <script defer src=“https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js”></script>
+
+<style>
+    html {
+            height: 100%;
+           }
+           
+           nav {
+            padding-top: 5px; padding-bottom: 5px;
+           
+           }
+           
+           
+           body {
+            height: 100%;
+            background-image: url(“../images/sign-question-mark.jpg”);
+            background-position: center 50px;
+            background-repeat: repeat-x;
+           }
+           
+           form {
+            float: left;
+           }
+           .progress-indicator {
+            list-style: none;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            display: table;
+            table-layout: fixed;
+           }
+           
+           .progress-indicator > li {
+            position: relative;
+            display: table-cell;
+            text-align: center;
+            font-size: 1.5em;
+           }
+           
+           .progress-indicator > li span {
+            position: absolute;
+            color: #e6e6e6;
+            -webkit-transform: translateX(-50%);
+                -ms-transform: translateX(-50%);
+                    transform: translateX(-50%);
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.05px;
+            text-transform: uppercase;
+           }
+           
+           .progress-indicator > li::before {
+            content: attr(data-step);
+            display: block;
+            margin: 0 auto;
+            background: #e6e6e6;
+            width: 1.5em;
+            height: 1.5em;
+            text-align: center;
+            margin-bottom: 0.25em;
+            line-height: 1.5em;
+            border-radius: 100%;
+            position: relative;
+            z-index: 1000;
+           }
+           
+           .progress-indicator > li::after {
+            content: ‘’;
+            position: absolute;
+            display: block;
+            background: #e6e6e6;
+            width: 100%;
+            height: 0.15em;
+            top: 50%;
+            -webkit-transform: translateY(-100%);
+                -ms-transform: translateY(-100%);
+                    transform: translateY(-100%);
+            left: 50%;
+            margin-left: 1.5em\9;
+            z-index: 0;
+           }
+           
+           .progress-indicator > li:last-child:after {
+            display: none;
+           }
+           
+           .progress-indicator > li.is-complete {
+            color: #1779ba;
+           }
+           
+           .progress-indicator > li.is-complete::before, .progress-indicator > li.is-complete::after {
+            color: #fefefe;
+            background: #1779ba;
+           }
+           
+           .progress-indicator > li.is-complete span {
+            color: #1779ba;
+           }
+           
+           .progress-indicator > li.is-current {
+            color: #4eabe9;
+           }
+           
+           .progress-indicator > li.is-current::before {
+            color: #fefefe;
+            background: #4eabe9;
+           }
+           
+           .progress-indicator > li.is-current span {
+            color: #4eabe9;
+           }
+           
+           .page-footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            margin-bottom: 0;
+            display: inline-block;
+           }
+           
+           .page-footer .container {
+            height: 75px;
+            
+           }
+           
+           .page-footer .footer-copyright {
+            height: 25px;
+            padding-top: 40px;
+           }
+           
+           .next-to {
+            align-items: center;
+           }
+           #link1 {
+            float: left;
+           }
+           #link2 {
+            position: relative;
+            float: right;
+           }
+           #first_name {
+           text-decoration-color: black;
+           }
+           .page-footer div .row {
+            height: 75px;
+            margin-bottom: 0;
+            align-items: center;
+           }
+           
+           #trial {
+            color: black;
+            background-color: white;
+            opacity: 0.7;
+            font-weight: bold;
+            padding-top: 100px;
+            height: 78%;
+            clear: left;
+            width: 70%;
+            height: 70%;
+           }
+</style>
+</head>
+
+
+<body>
+
+    <nav>
+        <div class=“nav-wrapper”>
+            <a href=“#!” class=“brand-logo center”>
+                <strong>Where Ya At?!</strong>
+            </a>
+            <ul class=“left hide-on-med-and-down”>
+                <li>
+                    <a href=“sass.html”>Departure</a>
+                </li>
+                <li>
+                    <a href=“badges.html”>Arrival</a>
+                </li>
+                <li class=“active”>
+                    <a href=“collapsible.html”>Active Trip</a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+
+
+    <div id=“trial” class=“row”>
+        <form class=“col s12”>
+            <div class=“row”>
+                <div class=“input-field col s6”>
+                    <input placeholder=“Placeholder” id=“first_name” type=“text” class=“validate”>
+                    <label for=“first_name”>First Name</label>
+                </div>
+                <div class=“input-field col s6”>
+                    <input id=“last_name” type=“text” class=“validate”>
+                    <label for=“last_name”>Last Name</label>
+                </div>
+            </div>
+            <div class=“row”>
+                <div class=“input-field col s12”>
+                    <input id=“I am not editable” id=“disabled” type=“text” class=“validate”>
+                    <label for=“disabled”>Disabled</label>
+                </div>
+            </div>
+            <div class=“row”>
+                <div class="input-field col s12">
+                    <input id=“student id” type=“student id” class=“validate”>
+                    <label for=“student id”>Student ID</label>
+                </div>
+            </div>
+            <div class=“row”>
+                <div class="input-field col s12">
+                    <input id=“email” type=“email” class=“validate”>
+                    <label for=“email”>Email</label>
+                </div>
+            </div>
+            <div class=“row”>
+                <div class="col s12">
+                    This is an inline input field:
+                    <div class=“input-field inline”>
+                        <input id=“email_inline” type=“email” class=“validate”>
+                        <label for=“email_inline”>Email</label>
+                        <span class=“helper-text” data-error=“wrong” data-success=“right”>Helper text</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <footer class=“page-footer”>
+        <div class=“container”>
+            <div class=“row”>
+                <div class="col l4 s8">
+                    <h5 class=“white-text”>Footer Content</h5>
+                    <p class="grey-text text-lighten-4">Ensure the safe arrival and departure of those you care about.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class=“white-text”>Routes</h5>
+                    <ul class=“next-to”>
+                        <li>
+                            <a id="link1" class="grey-text text-lighten-3" href="#!">Info</a>
+                        </li>
+                        <li>
+                            <a id="link2" class="grey-text text-lighten-3" href="#!">Special Instructions</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class=“footer-copyright”>
+            <div class=“container”>
+                ® Where Ya AT?!
+                <a class=“grey-text text-lighten-4 right” href=“#!“>More Links</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
