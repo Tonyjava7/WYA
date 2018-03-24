@@ -3,7 +3,7 @@ var path = require("path");
 var express = require("express");
 var firebase = require("firebase");
 var moment = require('moment');
-const sgMail = require('@sendgrid/mail');
+var sgMail = require('@sendgrid/mail');
 //sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 var helper = require('sendgrid').mail;
 
@@ -69,34 +69,35 @@ router.post("/api/riders/:studentId", function (req, res) {
 
         console.log(data[0].email);
         var time = moment().format('MMMM Do YYYY, h:mm:ss a');
-  
-    
-var from_email = new helper.Email('info@WYA.com');
-var to_email = new helper.Email(data[0].email);
-var subject = 'Public School bus alert';
-var content = new helper.Content('text/plain', data[0].first_name +" "+ data[0].last_name +' has been scanned on the bus at ' + time);
-var mail = new helper.Mail(from_email, subject, to_email, content);
 
-var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-var request = sg.emptyRequest({
-  method: 'POST',
-  path: '/v3/mail/send',
-  body: mail.toJSON(),
-});
 
-sg.API(request, function(error, response) {
-  console.log(response.statusCode);
-  console.log(response.body);
-  console.log(response.headers);
-});
-});
+        var from_email = new helper.Email('info@WYA.com');
+        var to_email = new helper.Email(data[0].email);
+        var subject = 'Public School bus alert';
+        var content = new helper.Content('text/plain', data[0].first_name + " " + data[0].last_name + ' has been scanned on the bus at ' + time);
+        var mail = new helper.Mail(from_email, subject, to_email, content);
 
-router.post("/api/riders/email/:email", function (req, res) {
-    rider.pullUserByEmail(req.params.email, function (data) {
-        console.log(data);
-        res.send(data);
+        var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+        var request = sg.emptyRequest({
+            method: 'POST',
+            path: '/v3/mail/send',
+            body: mail.toJSON(),
+        });
+
+        sg.API(request, function (error, response) {
+            console.log(response.statusCode);
+            console.log(response.body);
+            console.log(response.headers);
+        });
     });
-});});
+
+    router.post("/api/riders/email/:email", function (req, res) {
+        rider.pullUserByEmail(req.params.email, function (data) {
+            console.log(data);
+            res.send(data);
+        });
+    });
+});
 
 router.post("/api/riders/:first_name", function (req, res) {
     rider.pullUsername(req.params.first_name, function (data) {
